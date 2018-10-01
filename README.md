@@ -13,6 +13,6 @@
 
 - [See all the plot in Tableau](https://public.tableau.com/profile/yousuf.ali#!/vizhome/MedicalAppointmentNoShow/agevsNoshow)
 
-- [SAS code ](https://github.com/Yousuf28/udacity_data_analyst_nano_degree/blob/master/part_02_investigate_dataset/sas/investigating%2Bdataset.ipynb)
+- [SAS code ](https://github.com/Yousuf28/udacity_data_analyst_nano_degree/tree/master/part_02_investigate_dataset/sas)
 
 ****
