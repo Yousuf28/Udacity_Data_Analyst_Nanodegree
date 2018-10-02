@@ -1,10 +1,37 @@
 /* Read Table and cleaning the data*/
 /* read the table */
+
 FILENAME REFFILE '/folders/myfolders/data/noshow.csv';
 
-PROC IMPORT DATAFILE=REFFILE DBMS=CSV OUT=noshow;
+PROC IMPORT DATAFILE=REFFILE DBMS=CSV OUT=noshow replace;
 	GETNAMES=YES;
+	
+	
 RUN;
+
+/* drop the columns */
+
+data noshow;
+set noshow;
+drop  PatientID AppointmentId ScheduledDay AppointmentDay neighbourhood;
+run;
+
+/* format No_show column */
+
+data noshow;
+format No_show $20.;
+set noshow;
+run;
+
+/* change lebel */
+data noshow;
+	set noshow;
+
+	if No_show='No' then
+		No_show='Showed up';
+	else
+		No_show='not showed up';
+run;
 
 /* Check the data*/
 PROC PRINT DATA=noshow (firstobs=1 obs=5);
@@ -26,9 +53,10 @@ proc means data=noshow n nmiss;
 	var _numeric_;
 run;
 
+
 /* character value column*/
 proc freq data=noshow;
-	tables No_show Gender Neighbourhood;
+	tables No_show Gender ;
 run;
 
 /* other way to check missing value */
@@ -84,39 +112,30 @@ proc means data=noshow;
 	var age;
 run;
 
-data noshow;
-	length No_show $ 40 gender $ 10 neighbourhood $20;
-	set noshow;
-	format No_show gender neighborhood;
-	informat No_show gender neighborhood;
-run;
+
+
+
+
 
 /* EXPLORATORY ANALYSIS */
-data noshow;
-	set noshow;
 
-	if No_show='No' then
-		No_show='showed up';
-	else
-		No_show='not showed up';
-run;
 
 /* age vs no show histogram */
 proc sgplot data=noshow;
 	histogram age / group=No_show transparency=0.4;
-	title 'Age vs No show';
+	
 run;
 
 /* age vs noshow box plot */
 PROC SGPLOT DATA=noshow;
 	VBOX Age / category=No_show;
-	title 'Age vs No show boxplot';
+	
 run;
 
 /* bar diagram of age vs no show */
 proc SGPLOT DATA=noshow;
 	vbar age / group=No_show;
-	title 'Number of patients in each group';
+	
 run;
 
 /* t test */
@@ -129,13 +148,13 @@ run;
 /* bar diagram */
 proc SGPLOT DATA=noshow;
 	vbar Gender;
-	title 'Number of patients in each group';
+	
 run;
 
 /* stacked bar diagram */
 proc SGPLOT DATA=noshow;
 	vbar Gender / group=No_show;
-	title 'Gender vs No Show';
+	
 run;
 
 /* other way */
@@ -226,7 +245,7 @@ run;
 proc logistic data=noshow;
 	class gender Scholarship Hypertension Diabetes Alcoholism Handicap 
 		SMS_received / param=glm;
-	model No_show(event='showed up')=gender Scholarship Hypertension Diabetes 
+	model No_show(event='Showed up')=gender Scholarship Hypertension Diabetes 
 		Alcoholism Handicap SMS_received Age / link=logit selection=backward 
 		slstay=0.05 hierarchy=single technique=fisher;
 run;
