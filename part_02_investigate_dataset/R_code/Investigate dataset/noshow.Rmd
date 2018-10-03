@@ -1,0 +1,466 @@
+---
+title: "Medical Appoinment No Show"
+output: 
+  prettydoc::html_pretty:
+    fig_height: 4
+    highlight: pygments
+    theme: cayman
+    toc: yes
+    df_print: kable
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Data Wrangling
+
+### Load packages
+
+```{r load-packages, message = FALSE}
+library(tidyverse)
+```
+
+### Read table and Cleaning data
+
+```{r read table, message=FALSE, warning=FALSE}
+# read the table
+
+df <-  read_csv("data/KaggleV2-May-2016.csv")
+
+```
+
+```{r check data, message=FALSE, warning=FALSE}
+# check the data
+
+head(df)
+```
+
+```{r check structure of the data, message=FALSE, warning=FALSE}
+# check structure of the data
+str(df)
+```
+
+```{r change columns name}
+
+# change columns name
+names(df)<-  c('patient_id',
+                   'appointment_id',
+                   'gender','schedule_day',
+                   'appointment_day',
+                   'age',
+                   'neighborhood',
+                   'scholarship',
+                   'hypertension',
+                   'diabetes',
+                   'alcoholism',
+                   'handicap',
+                   'sms_received',
+                   'no_show')
+```
+
+```{r check again}
+
+# check again
+head(df)
+```
+
+
+```{r check missing value}
+# check missing value
+
+sapply(df,function(x)sum(is.na(x)))
+```
+
+```{r  change data type of some columns}
+# change data type of some columns
+df <- mutate_at(df, vars('gender',
+                   'neighborhood',
+                   'scholarship',
+                   'hypertension',
+                   'diabetes',
+                   'alcoholism',
+                   'handicap',
+                   'sms_received'), as.factor)
+```
+
+```{r check data type}
+# check data type
+lapply(df, class)
+```
+
+
+```{r  check summary statistics}
+# check summary statistics
+summary(df)
+```
+
+minimum age is −1, so lets check all the value less than 0
+
+```{r check value less than 0}
+#check value less than 0
+df[df$age < 0, ]
+
+```
+
+```{r drop the row with condition}
+#drop the row with condition
+
+df <-df[!(df$age<0),]
+```
+
+```{r}
+summary(df$age)
+```
+
+
+## Exploratory Analysis
+
+
+
+### Age vs No Show
+
+#### Is there any relation between Age and No show?
+
+#### plot and statistics
+
+In the dataset description, it mention that in no_show column No means patient showed up and yes means patient did not showed up
+
+```{r}
+# age vs showed up or not
+# blue showed up
+ggplot(df,aes(x=age)) + 
+    geom_histogram(data=subset(df,no_show == 'No'),fill = '#00BFC4', alpha = 0.8) +
+    geom_histogram(data=subset(df,no_show == 'Yes'),fill = '#F8766D', alpha = 0.8) 
+    
+```
+
+Since there is confusion with no and yes with showed up or not, lets make it clear
+
+```{r}
+# in no_show column No means patient showed up and yes means patient did not showed up
+df$no_show[df$no_show == 'No'] <- 'Showed up'
+df$no_show[df$no_show == 'Yes'] <- 'not showed up'
+```
+
+```{r}
+df$no_show <- as.factor(df$no_show)
+```
+
+
+```{r age box plot}
+
+# age box plot
+
+ggplot(df, aes(x = no_show, y = age, fill = no_show))+
+    geom_boxplot()
+```
+
+
+```{r statistics}
+#statistics
+
+select(df, age, no_show) %>% 
+    group_by(no_show) %>% 
+    summarise(age_mean = mean(age))
+```
+
+#### more visualization
+
+```{r fig.height=8, fig.width=16}
+ggplot(data = df)+
+    geom_bar(aes(factor(age), fill = no_show), position = position_fill())+
+    theme(axis.text.x = element_text(size= 12, angle = 90, hjust = 1))
+```
+
+#### t test 
+
+```{r make separate column}
+
+# make column of age
+
+showed_up <- df[df$no_show == 'Showed up',]$age
+not_showed_up <- df[df$no_show == 'not showed up',]$age
+```
+
+```{r age t test}
+# independent two sample t test
+t.test(showed_up, not_showed_up)
+```
+
+```{r other way t test}
+# just easy way, same result
+t.test(df$age ~ df$no_show)
+```
+
+### Gender vs No Show
+
+#### Is there any relation between Gender and No Show?
+
+#### Plot and statistics
+
+```{r replace levels}
+# replace levels
+levels(df$gender)[levels(df$gender)=="M"] <- "Male"
+levels(df$gender)[levels(df$gender)=="F"] <- "Female"
+
+```
+
+
+```{r plot gender}
+# count gender
+ggplot(data = df)+
+    geom_bar(aes(x = gender,fill = gender))
+```
+
+
+
+```{r gender table}
+# gender table
+table(df$gender, df$no_show)
+```
+
+```{r}
+# total patient
+table(df$no_show)
+```
+
+
+
+```{r gender vs noshow stacked bar}
+#gender vs noshow stacked bar
+ggplot(df)+
+    geom_bar(aes(x = gender, fill = no_show))
+```
+
+```{r proportion table}
+# proportion table
+prop.table(table(df$gender, df$no_show), margin = 1)
+```
+
+
+```{r plot proportionally}
+#plot of proportion data, just add position_fill()
+ggplot(df)+
+    geom_bar(aes(x = gender, fill = no_show), position = position_fill())
+```
+
+
+#### chi-squared test
+
+```{r}
+chisq.test(table(df$gender,df$no_show))
+```
+without continuity correction
+
+```{r}
+chisq.test(table(df$gender,df$no_show), correct = FALSE)
+```
+
+### Scholarship, Hypertension, Diabetes, Alcohol, Handicap, Sms_received vs No Show
+
+#### What are the relation of No Show with Scholarship, Hypertension, Diabetes, Alcohol, Handicap, Sms_received?
+
+#### plot
+
+```{r eval=FALSE, include=FALSE}
+# below code does create plot but not good looking . could not figure out how to loop using ggplot
+df_plot <- select(df, scholarship, 
+               hypertension,
+               diabetes, 
+               alcoholism, 
+               handicap, 
+               sms_received)
+
+column_plot <- colnames(df_plot)
+par(mfrow = c(4,2))
+
+for(i in 1:ncol(df_plot)){
+    counts <- table(df_plot[,i])
+    barplot(counts)
+}
+    
+
+
+
+
+```
+
+
+
+```{r multiple columns plot: count, fig.height=12, fig.width=8}
+
+# Count patients number in each group
+library(gridExtra)
+
+p1 <- ggplot(df)+geom_bar(aes(scholarship, fill = scholarship))
+p2 <- ggplot(df)+geom_bar(aes(hypertension, fill =hypertension))
+p3 <- ggplot(df)+geom_bar(aes(diabetes, fill = diabetes))
+p4 <- ggplot(df)+geom_bar(aes (alcoholism, fill =  alcoholism))
+p5 <- ggplot(df)+geom_bar(aes( handicap, fill = handicap))
+p6 <- ggplot(df)+geom_bar(aes(sms_received, fill = sms_received))
+
+grid.arrange(p1,p2,p3,p4,p5,p6, nrow = 3)
+
+
+
+
+```
+
+```{r multiple columns plot vs noshow ,fig.height=12, fig.width=8}
+# this plot for each group with patient who showed up and not showed up
+p1 <- ggplot(df)+geom_bar(aes(scholarship, fill = no_show))
+p2 <- ggplot(df)+geom_bar(aes(hypertension, fill =no_show))
+p3 <- ggplot(df)+geom_bar(aes(diabetes, fill = no_show))
+p4 <- ggplot(df)+geom_bar(aes (alcoholism, fill =  no_show))
+p5 <- ggplot(df)+geom_bar(aes( handicap, fill = no_show))
+p6 <- ggplot(df)+geom_bar(aes(sms_received, fill = no_show))
+
+grid.arrange(p1,p2,p3,p4,p5,p6, nrow = 3)
+```
+
+```{r multiple columns plot: proportion, fig.height=12, fig.width=8}
+
+# this plot is same as above one execpt it show proportion.
+p1 <- ggplot(df)+geom_bar(aes(scholarship, fill = no_show), position = position_fill())
+p2 <- ggplot(df)+geom_bar(aes(hypertension, fill =no_show), position = position_fill())
+p3 <- ggplot(df)+geom_bar(aes(diabetes, fill = no_show), position = position_fill())
+p4 <- ggplot(df)+geom_bar(aes (alcoholism, fill =  no_show), position = position_fill())
+p5 <- ggplot(df)+geom_bar(aes( handicap, fill = no_show), position = position_fill())
+p6 <- ggplot(df)+geom_bar(aes(sms_received, fill = no_show), position = position_fill())
+
+grid.arrange(p1,p2,p3,p4,p5,p6, nrow = 3)
+```
+
+
+
+#### chi-squared test 
+
+```{r chi-squared test multiple column, message=FALSE, warning=FALSE}
+# chi-squared test
+
+chisq.test(table(df$scholarship, df$no_show), correct = FALSE) # scholarship
+chisq.test(table(df$hypertension, df$no_show), correct = FALSE) # hypertension
+chisq.test(table(df$diabetes, df$no_show), correct = FALSE) # diabetes
+chisq.test(table(df$alcoholism, df$no_show), correct = FALSE) #alcoholism
+chisq.test(table(df$handicap, df$no_show), correct = FALSE) #handicap
+chisq.test(table(df$sms_received, df$no_show), correct = FALSE) # sms_received
+
+```
+
+
+
+### Appointment day vs No Show
+
+####plot
+
+```{r appointment day vs noshow}
+# make new columns 
+df$day <- weekdays(as.Date(df$appointment_day))
+```
+
+
+```{r}
+ggplot(df)+geom_bar(aes(day, fill = day))
+```
+
+```{r}
+library(lubridate)
+
+# make days column, with lebel true
+df$date <- as.Date(df$appointment_day)
+df$days <- wday(df$date, label=TRUE)
+```
+
+```{r plot}
+
+# day start monday and goes on by day, using days column
+ggplot(df)+geom_bar(aes(days, fill = day))
+```
+
+```{r days vs no show}
+
+# days vs no show
+ggplot(df)+geom_bar(aes(days, fill = no_show))
+```
+
+```{r}
+#days vs no show, using days column
+ggplot(df)+geom_bar(aes(days, fill = no_show), position = position_fill())
+```
+
+
+#### chi-squared test
+
+used day column because days column contain sunday.
+
+```{r}
+# day column
+table(df$day, df$no_show)
+```
+
+```{r}
+#days column
+table(df$days, df$no_show)
+```
+
+
+```{r}
+chisq.test(table(df$no_show,df$day))
+```
+
+### Neighborhood vs No Show
+
+
+
+```{r}
+df_neighbor <- data.frame(table(df$neighborhood, df$no_show))
+names(df_neighbor) <- c("neighborhood", "no_show", 'Count')
+head(df_neighbor)
+```
+
+#### plot
+
+```{r fig.height=8, fig.width=16}
+
+ggplot(df_neighbor)+
+geom_bar(aes(x = reorder(neighborhood, -Count), y = Count, fill = no_show), stat = 'identity')+
+    theme(axis.text.x = element_text(size= 12, angle = 90, hjust = 1))
+
+
+
+```
+
+
+
+```{r fig.height=8, fig.width=16}
+
+# proportion 
+ggplot(df)+
+    geom_bar(aes(x = neighborhood, fill = no_show), position = position_fill())+
+    theme(axis.text.x = element_text(size= 12, angle = 90, hjust = 1))
+
+```
+
+## Logistic Regression
+
+```{r}
+df_log <- select(df, age, gender, scholarship, hypertension, diabetes, handicap,sms_received, no_show)
+```
+
+```{r}
+model <- glm(no_show ~ . , data = df_log ,family = "binomial")
+```
+
+```{r}
+summary(model)
+```
+
+```{r}
+df_log <- select(df, age, scholarship, hypertension, diabetes,sms_received, no_show)
+
+model <- glm(no_show ~ . , data = df_log ,family = "binomial")
+summary(model)
+```
+
