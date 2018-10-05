@@ -26,5 +26,8 @@
 - [Explore Weather Trends: See all the plot in Tableau](https://public.tableau.com/profile/yousuf.ali#!/vizhome/ExploreWeatherTrends_1/GlobalMovingvsDallasMovingAvg)
 
 #### part 02
+
+- [Medical Appointment No Show in R ](http://rpubs.com/Yousuf/426427)
+
 - [Medical Appointment No Show: See all the plot in Tableau](https://public.tableau.com/profile/yousuf.ali#!/vizhome/MedicalAppointmentNoShow/agevsNoshow)
-- [SAS code ](https://github.com/Yousuf28/udacity_data_analyst_nano_degree/blob/master/part_02_investigate_dataset/sas/investigate%20dataset.sas)
+- [Medical Appointment No Show: SAS code ](https://github.com/Yousuf28/udacity_data_analyst_nano_degree/blob/master/part_02_investigate_dataset/sas/investigate%20dataset.sas)
