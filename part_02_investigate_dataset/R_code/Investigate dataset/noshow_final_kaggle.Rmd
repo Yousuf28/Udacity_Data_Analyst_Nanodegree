@@ -1,17 +1,26 @@
 ---
-title: "Medical Appoinment No Show"
-output: 
-  prettydoc::html_pretty:
-    fig_height: 4
-    highlight: pygments
-    theme: cayman
-    toc: yes
-    df_print: kable
+title: "Medical Appointment No Show"
+author: "Yousuf Ali"
+date: "10/4/2018"
+output:
+  html_document:
+    number_sections: true
+    toc: true
+    toc_depth: 4
+    highlight: tango
+    theme: readable
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+same project in python
+[click here](https://www.kaggle.com/yousuf28/medical-appointment-no-show-in-python/notebook)
+
+
+If you want to see same plot in **Tableau** <br> and want to see some **SAS** code 
+go to my git hub page [github](https://github.com/Yousuf28/udacity_data_analyst_nano_degree/blob/master/README.md)
 
 
 ## Data Wrangling
@@ -27,7 +36,7 @@ library(tidyverse)
 ```{r read table, message=FALSE, warning=FALSE}
 # read the table
 
-df <-  read_csv("data/KaggleV2-May-2016.csv")
+df <-  read_csv("../input/KaggleV2-May-2016.csv")
 
 ```
 
@@ -125,16 +134,20 @@ summary(df$age)
 
 #### plot and statistics
 
-In the dataset description, it mention that in no_show column No means patient showed up and yes means patient did not showed up
+In the dataset description, it mention that in **no_show** column **No** means patient **showed up** and **yes** means patient did **not showed up**
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 # age vs showed up or not
 # blue showed up
 ggplot(df,aes(x=age)) + 
-    geom_histogram(data=subset(df,no_show == 'No'),fill = '#00BFC4', alpha = 0.8) +
-    geom_histogram(data=subset(df,no_show == 'Yes'),fill = '#F8766D', alpha = 0.8) 
+    geom_histogram(data=subset(df,no_show == 'No'),fill = '#00BFC4', alpha = 0.8, bins = 40) +
+    geom_histogram(data=subset(df,no_show == 'Yes'),fill = '#F8766D', alpha = 0.8, bins = 40) +
+    ggtitle('Age vs No Show Histogram')+
+    theme(plot.title = element_text(hjust = 0.5))
     
 ```
+
+It is very hard to tell from this plot the difference in age of patient who showed up or did not showed up. So let's explore more.
 
 Since there is confusion with no and yes with showed up or not, lets make it clear
 
@@ -154,9 +167,12 @@ df$no_show <- as.factor(df$no_show)
 # age box plot
 
 ggplot(df, aes(x = no_show, y = age, fill = no_show))+
-    geom_boxplot()
+    geom_boxplot()+ 
+    ggtitle("Age vs No Show Boxplot")+
+    theme(plot.title = element_text(hjust = 0.5))
 ```
 
+From the box plot, the mean age is higher for those who showed up. Now let's see the exact value.
 
 ```{r statistics}
 #statistics
@@ -166,13 +182,22 @@ select(df, age, no_show) %>%
     summarise(age_mean = mean(age))
 ```
 
-#### more visualization
+ more visualization
+
+Though it might not be appropriate for all case but in this case it is possible to visualize all age group.
 
 ```{r fig.height=8, fig.width=16}
 ggplot(data = df)+
     geom_bar(aes(factor(age), fill = no_show), position = position_fill())+
+    ggtitle("Age vs No Show Proportion in Bar Diagram")+
+    ylab('Proportion')+
+    theme(plot.title = element_text(hjust = 0.5, size = 24))+
+    theme(axis.title.y = element_text(size =18))+
+    theme(axis.title.x = element_text(size =18))+
     theme(axis.text.x = element_text(size= 12, angle = 90, hjust = 1))
 ```
+
+From the above plot now it seems that proportion of showed up patients are higher in the age range 60 to 80 than patient age under 40.
 
 #### t test 
 
@@ -194,6 +219,8 @@ t.test(showed_up, not_showed_up)
 t.test(df$age ~ df$no_show)
 ```
 
+So there is significant difference in age of patient those who showed up and those who did not show up.
+
 ### Gender vs No Show
 
 #### Is there any relation between Gender and No Show?
@@ -211,10 +238,13 @@ levels(df$gender)[levels(df$gender)=="F"] <- "Female"
 ```{r plot gender}
 # count gender
 ggplot(data = df)+
-    geom_bar(aes(x = gender,fill = gender))
+    geom_bar(aes(x = gender,fill = gender))+
+    ggtitle("Gender Bar Diagram")+
+    theme(plot.title = element_text(hjust = 0.5))
+    
 ```
 
-
+So there are more female patient than male patient in dataset.
 
 ```{r gender table}
 # gender table
@@ -231,8 +261,14 @@ table(df$no_show)
 ```{r gender vs noshow stacked bar}
 #gender vs noshow stacked bar
 ggplot(df)+
-    geom_bar(aes(x = gender, fill = no_show))
+    geom_bar(aes(x = gender, fill = no_show))+
+    ggtitle("Gender vs No Show Stacked Bar Diagram")+
+    theme(plot.title = element_text(hjust = 0.5))+
+    ylab("Count")+
+    xlab("Gender")
 ```
+
+showed up and not showed up both group is higher for female than male because more patients in data set is female. So its better to see proportionally.
 
 ```{r proportion table}
 # proportion table
@@ -243,9 +279,15 @@ prop.table(table(df$gender, df$no_show), margin = 1)
 ```{r plot proportionally}
 #plot of proportion data, just add position_fill()
 ggplot(df)+
-    geom_bar(aes(x = gender, fill = no_show), position = position_fill())
+    geom_bar(aes(x = gender, fill = no_show), position = position_fill())+
+    ggtitle("Gender vs No Show Bar Diagram")+
+    ylab('Proportion')+
+    xlab("Gender")+
+    theme(plot.title = element_text(hjust = 0.5))
+    
 ```
 
+So there is not much difference between male and female.
 
 #### chi-squared test
 
@@ -257,6 +299,9 @@ without continuity correction
 ```{r}
 chisq.test(table(df$gender,df$no_show), correct = FALSE)
 ```
+
+p value is more than 0.05, so gender difference is not significant.
+
 
 ### Scholarship, Hypertension, Diabetes, Alcohol, Handicap, Sms_received vs No Show
 
@@ -289,7 +334,7 @@ for(i in 1:ncol(df_plot)){
 
 
 
-```{r multiple columns plot: count, fig.height=12, fig.width=8}
+```{r multiple columns plot count, fig.height=12, fig.width=8}
 
 # Count patients number in each group
 library(gridExtra)
@@ -320,15 +365,21 @@ p6 <- ggplot(df)+geom_bar(aes(sms_received, fill = no_show))
 grid.arrange(p1,p2,p3,p4,p5,p6, nrow = 3)
 ```
 
-```{r multiple columns plot: proportion, fig.height=12, fig.width=8}
+```{r multiple columns plot proportion, fig.height=12, fig.width=8}
 
 # this plot is same as above one execpt it show proportion.
-p1 <- ggplot(df)+geom_bar(aes(scholarship, fill = no_show), position = position_fill())
-p2 <- ggplot(df)+geom_bar(aes(hypertension, fill =no_show), position = position_fill())
-p3 <- ggplot(df)+geom_bar(aes(diabetes, fill = no_show), position = position_fill())
-p4 <- ggplot(df)+geom_bar(aes (alcoholism, fill =  no_show), position = position_fill())
-p5 <- ggplot(df)+geom_bar(aes( handicap, fill = no_show), position = position_fill())
-p6 <- ggplot(df)+geom_bar(aes(sms_received, fill = no_show), position = position_fill())
+p1 <- ggplot(df)+geom_bar(aes(scholarship, fill = no_show), position = position_fill())+
+    ylab('Proportion')
+p2 <- ggplot(df)+geom_bar(aes(hypertension, fill =no_show), position = position_fill())+
+    ylab('Proportion')
+p3 <- ggplot(df)+geom_bar(aes(diabetes, fill = no_show), position = position_fill())+
+    ylab('Proportion')
+p4 <- ggplot(df)+geom_bar(aes (alcoholism, fill =  no_show), position = position_fill())+
+    ylab('Proportion')
+p5 <- ggplot(df)+geom_bar(aes( handicap, fill = no_show), position = position_fill())+
+    ylab('Proportion')
+p6 <- ggplot(df)+geom_bar(aes(sms_received, fill = no_show), position = position_fill())+
+    ylab('Proportion')
 
 grid.arrange(p1,p2,p3,p4,p5,p6, nrow = 3)
 ```
@@ -349,11 +400,12 @@ chisq.test(table(df$sms_received, df$no_show), correct = FALSE) # sms_received
 
 ```
 
+p value is significant for scholarship, hypertension, diabetes, sms_received group.
 
 
 ### Appointment day vs No Show
 
-####plot
+#### plot
 
 ```{r appointment day vs noshow}
 # make new columns 
@@ -362,10 +414,17 @@ df$day <- weekdays(as.Date(df$appointment_day))
 
 
 ```{r}
-ggplot(df)+geom_bar(aes(day, fill = day))
+ggplot(df)+geom_bar(aes(day, fill = day))+
+     ggtitle("Number of Appointment")+
+    ylab('Count')+
+    xlab('Day')+
+    theme(plot.title = element_text(hjust = 0.5))
+    
 ```
 
-```{r}
+Number of appointment differ across week. Some day like Wednesday and Tuesday make more appointment than other. Statistics given below to see exact number.
+
+```{r message=FALSE, warning=FALSE}
 library(lubridate)
 
 # make days column, with lebel true
@@ -376,18 +435,30 @@ df$days <- wday(df$date, label=TRUE)
 ```{r plot}
 
 # day start monday and goes on by day, using days column
-ggplot(df)+geom_bar(aes(days, fill = day))
+ggplot(df)+geom_bar(aes(days, fill = day))+
+     ggtitle("Number of Appointment")+
+    ylab('Count')+
+    xlab('Day')+
+    theme(plot.title = element_text(hjust = 0.5))
 ```
 
 ```{r days vs no show}
 
 # days vs no show
-ggplot(df)+geom_bar(aes(days, fill = no_show))
+ggplot(df)+geom_bar(aes(days, fill = no_show))+ 
+    ggtitle(" Number of Appointment vs No Show")+
+    ylab('Count')+
+    xlab('Day')+
+    theme(plot.title = element_text(hjust = 0.5))
 ```
 
 ```{r}
 #days vs no show, using days column
-ggplot(df)+geom_bar(aes(days, fill = no_show), position = position_fill())
+ggplot(df)+geom_bar(aes(days, fill = no_show), position = position_fill())+
+     ggtitle("Appointment vs No Show")+
+    ylab('Proportion')+
+    xlab('Day')+
+    theme(plot.title = element_text(hjust = 0.5))
 ```
 
 
@@ -410,6 +481,9 @@ table(df$days, df$no_show)
 chisq.test(table(df$no_show,df$day))
 ```
 
+Since p value is significant that means showing up in appointment day is dependent on which day the appointment is.
+
+
 ### Neighborhood vs No Show
 
 
@@ -422,11 +496,17 @@ head(df_neighbor)
 
 #### plot
 
-```{r fig.height=8, fig.width=16}
+```{r fig.height=12, fig.width=16}
 
 ggplot(df_neighbor)+
 geom_bar(aes(x = reorder(neighborhood, -Count), y = Count, fill = no_show), stat = 'identity')+
-    theme(axis.text.x = element_text(size= 12, angle = 90, hjust = 1))
+    theme(axis.text.x = element_text(size= 12, angle = 90, hjust = 1))+
+    ggtitle("Neighborhood vs No Show")+
+    ylab('Count')+
+    xlab('Neighborhood')+
+    theme(plot.title = element_text(hjust = 0.5, size = 24))+
+    theme(axis.title.y = element_text(size =18))+ 
+    theme(axis.title.x = element_text(size =18))
 
 
 
@@ -434,33 +514,111 @@ geom_bar(aes(x = reorder(neighborhood, -Count), y = Count, fill = no_show), stat
 
 
 
-```{r fig.height=8, fig.width=16}
+```{r fig.height=12, fig.width=16}
 
 # proportion 
 ggplot(df)+
     geom_bar(aes(x = neighborhood, fill = no_show), position = position_fill())+
-    theme(axis.text.x = element_text(size= 12, angle = 90, hjust = 1))
+    theme(axis.text.x = element_text(size= 12, angle = 90, hjust = 1))+
+      ggtitle("Neighborhood vs No Show")+
+    ylab('Proportion')+
+    xlab('Neighborhood')+
+    theme(plot.title = element_text(hjust = 0.5))+
+    theme(plot.title = element_text(hjust = 0.5, size = 24))+
+    theme(axis.title.y = element_text(size =18))+ 
+    theme(axis.title.x = element_text(size =18))
 
 ```
 
 ## Logistic Regression
 
+### Logistic Regression Model
+
+select the coulmns that we are interested in.
+
 ```{r}
-df_log <- select(df, age, gender, scholarship, hypertension, diabetes, handicap,sms_received, no_show)
+df_2 <- select(df, age, gender, scholarship, hypertension, diabetes, alcoholism, handicap,sms_received, day, no_show)
+```
+
+
+```{r}
+df_2 <- mutate_at(df_2, vars(day), as.factor)
+```
+
+
+```{r}
+
+log_model_1 <- glm(no_show ~ . ,family = binomial(link = 'logit'),  data = df_2 )
+
 ```
 
 ```{r}
-model <- glm(no_show ~ . , data = df_log ,family = "binomial")
+summary(log_model_1)
+```
+
+Drop handicap and gender and build a model again.
+
+
+```{r}
+df_3 <- select(df, age, scholarship, hypertension, diabetes, alcoholism, sms_received, day, no_show)
+```
+
+
+```{r}
+log_model_2 <- glm(no_show ~ . ,family = binomial(link = 'logit'),  data = df_3 )
 ```
 
 ```{r}
-summary(model)
+summary(log_model_2)
+```
+
+###  Logistic Regression with training and test data set
+
+```{r}
+
+
+library(caTools)
+set.seed(100)
+
+split = sample.split(df_2$no_show, SplitRatio = 0.70)
+
+train = subset(df_2, split == TRUE)
+test = subset(df_2, split == FALSE)
 ```
 
 ```{r}
-df_log <- select(df, age, scholarship, hypertension, diabetes,sms_received, no_show)
-
-model <- glm(no_show ~ . , data = df_log ,family = "binomial")
-summary(model)
+logit_model <- glm(formula = no_show ~ . ,  data = train, family =binomial(link = 'logit') )
 ```
+
+```{r}
+summary(logit_model)
+```
+
+### Model Evaluation
+
+```{r}
+fitted_p <- predict(logit_model,newdata=test,type='response')
+```
+
+```{r}
+
+pred_test <-  ifelse(fitted_p>0.5,1,0)
+```
+
+```{r}
+
+tab <- table(predicted = pred_test, actual = test$no_show)
+tab
+```
+
+
+Model is not like as we expected because there is class imbalance in between showed up and not showed up group. <br>There are $80$ % patients who show up and $20$ % those who don't show up. <br>
+So if I predict someone will show up based on data (without model) that is $80$ %.
+
+## Conclusions
+
+If someone make appointment there is already $80$% chance that this patient will show up. <br>
+even though we saw some independent variable(predictors) like age, hypertension , diabetes, sms-received are significant predictor but our model fail to predict accuracy more than $80$% because of class imbalance.
+So from this dataset it is very hard to tell that who is not going to show up.<br>
+There are techniques (like under-sampling and over-sampling) available to solve class imbalance problem but that beyond this project outline.
 
