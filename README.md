@@ -1,4 +1,4 @@
-# udacity_data_analyst_nano_degree
+# Udacity_Data_Analyst_Nanodegree
 
 
 
