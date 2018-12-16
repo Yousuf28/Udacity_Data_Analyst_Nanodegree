@@ -2,6 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+.DS_Store
 
 course_material
 material_course
