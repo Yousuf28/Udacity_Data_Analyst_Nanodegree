@@ -5,7 +5,7 @@
 
 ## Dataset
 
-> This dataset provided by udacity. Dataset have 113937 observations and 81 variables. 
+> This dataset provided by udacity. Prosper is peer to peer lending comoany. It offers personal loan without any collateral. Each observation contain information about a loan. Dataset have 113937 observations and 81 variables. 
 
 
 ## Summary of Findings
