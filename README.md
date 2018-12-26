@@ -22,7 +22,13 @@ Rendered in http://nbviewer.jupyter.org
 - [Part_04: Wrangle and Analyza Data](http://nbviewer.jupyter.org/github/Yousuf28/udacity_data_analyst_nano_degree/blob/master/part_04_wrangle_and_analyzeData/wrangle_act.ipynb)
 
 
+***
 
+- Part_05: Communicating_data_finding
+
+- [Exploratory_Analysis](http://nbviewer.jupyter.org/github/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/part_05_communicate_data_finding/Exploratory_Analysis.ipynb#Income-Range-vs-Borrower-APR)
+
+-[Explanatory_Analysis](http://nbviewer.jupyter.org/github/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/part_05_communicate_data_finding/Explanatory_Analysis.ipynb)
 
 
 
