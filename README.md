@@ -25,7 +25,11 @@
 
 - [Part_05: Communicating_data_finding](http://nbviewer.jupyter.org/github/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/part_05_communicate_data_finding/Exploratory_Analysis.ipynb#Income-Range-vs-Borrower-APR)
 
-- [Exploratory_Analysis][nbviewer](http://nbviewer.jupyter.org/github/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/part_05_communicate_data_finding/Exploratory_Analysis.ipynb#Income-Range-vs-Borrower-APR)[html](http://htmlpreview.github.io/?https://github.com/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/part_05_communicate_data_finding/Exploratory_Analysis.html)
+- Exploratory_Analysis
+
+[nbviewer](http://nbviewer.jupyter.org/github/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/part_05_communicate_data_finding/Exploratory_Analysis.ipynb#Income-Range-vs-Borrower-APR)
+
+[html](http://htmlpreview.github.io/?https://github.com/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/part_05_communicate_data_finding/Exploratory_Analysis.html)
 
 
 
