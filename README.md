@@ -27,6 +27,10 @@
 
 - Exploratory_Analysis
 
+ There are so many plots, so it will take sometime to load....wait please....
+ 
+[[Kaggle](https://www.kaggle.com/yousuf28/eda-on-prosper-loan-data)]
+
 [[nbviewer](http://nbviewer.jupyter.org/github/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/part_05_communicate_data_finding/Exploratory_Analysis.ipynb#Income-Range-vs-Borrower-APR)]
 
 [[html](http://htmlpreview.github.io/?https://github.com/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/part_05_communicate_data_finding/Exploratory_Analysis.html)]
