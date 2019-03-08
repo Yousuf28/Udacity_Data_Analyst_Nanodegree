@@ -23,7 +23,7 @@
 
 ***
 
-- Part_05: Communicating_data_finding
+- [Part_05: Communicating_data_finding](https://www.kaggle.com/yousuf28/eda-on-prosper-loan-data)
 
 - Exploratory_Analysis
 
