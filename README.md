@@ -4,6 +4,8 @@
 
 ### Main Project
 ****
+******
+
 - [Part_01: Explore Weather Trends](http://nbviewer.jupyter.org/github/Yousuf28/udacity_data_analyst_nano_degree/blob/master/part_01_expore_weather_trends/weather_tredns_final.ipynb)
 
 - [html](http://htmlpreview.github.io/?https://github.com/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/part_01_expore_weather_trends/weather_tredns_final.html)
@@ -42,6 +44,8 @@
 
 
 ****
+*******
+********
 
 ### Extra Special
 
