@@ -1,13 +1,14 @@
 # Udacity_Data_Analyst_Nanodegree
 
-Rendered in http://nbviewer.jupyter.org
-
-### Code
+### Notebook
 
 ### Main Project
 ****
+******
+
 - [Part_01: Explore Weather Trends](http://nbviewer.jupyter.org/github/Yousuf28/udacity_data_analyst_nano_degree/blob/master/part_01_expore_weather_trends/weather_tredns_final.ipynb)
 
+- [html](http://htmlpreview.github.io/?https://github.com/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/part_01_expore_weather_trends/weather_tredns_final.html)
 
 ***
 
@@ -22,11 +23,29 @@ Rendered in http://nbviewer.jupyter.org
 - [Part_04: Wrangle and Analyza Data](http://nbviewer.jupyter.org/github/Yousuf28/udacity_data_analyst_nano_degree/blob/master/part_04_wrangle_and_analyzeData/wrangle_act.ipynb)
 
 
+***
 
+- [Part_05: Communicating_data_finding](https://www.kaggle.com/yousuf28/eda-on-prosper-loan-data)
+
+- Exploratory_Analysis
+
+ There are so many plots, so it will take sometime to load....wait please....
+ 
+[[Kaggle](https://www.kaggle.com/yousuf28/eda-on-prosper-loan-data)]
+
+[[nbviewer](http://nbviewer.jupyter.org/github/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/part_05_communicate_data_finding/Exploratory_Analysis.ipynb#Income-Range-vs-Borrower-APR)]
+
+[[html](http://htmlpreview.github.io/?https://github.com/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/part_05_communicate_data_finding/Exploratory_Analysis.html)]
+
+
+
+- [Explanatory_Analysis](http://nbviewer.jupyter.org/github/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/part_05_communicate_data_finding/Explanatory_Analysis.ipynb)
 
 
 
 ****
+*******
+********
 
 ### Extra Special
 
