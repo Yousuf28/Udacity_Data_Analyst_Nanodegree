@@ -14,7 +14,7 @@
 
 - [Part_02: Investigating Dataset-Medical Appointment No Show](http://nbviewer.jupyter.org/github/Yousuf28/udacity_data_analyst_nano_degree/blob/master/part_02_investigate_dataset/investigating_dataset_final.ipynb)
 
-*** 
+***
 
 - [Part_03: Analyze A/B test results ](http://nbviewer.jupyter.org/github/Yousuf28/udacity_data_analyst_nano_degree/blob/master/part_03_analyze_A%3AB_test_results/AnalyzeABTestResults%202/Analyze_ab_test_results_notebook_final.ipynb)
 
@@ -30,7 +30,7 @@
 - Exploratory_Analysis
 
  There are so many plots, so it will take sometime to load....wait please....
- 
+
 [[Kaggle](https://www.kaggle.com/yousuf28/eda-on-prosper-loan-data)]
 
 [[nbviewer](http://nbviewer.jupyter.org/github/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/part_05_communicate_data_finding/Exploratory_Analysis.ipynb#Income-Range-vs-Borrower-APR)]
@@ -61,3 +61,14 @@
 
 - [Medical Appointment No Show: See all the plot in Tableau](https://public.tableau.com/profile/yousuf.ali#!/vizhome/MedicalAppointmentNoShow/agevsNoshow)
 - [Medical Appointment No Show: SAS code ](https://github.com/Yousuf28/udacity_data_analyst_nano_degree/blob/master/part_02_investigate_dataset/sas/investigate%20dataset.sas)
+
+
+#### SQL
+
+SQL exercsie from following course:
+
+- [The Complete SQL Bootcamp_Udemy](https://www.udemy.com/the-complete-sql-bootcamp/)
+
+
+- [exercise_github](https://github.com/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/extra/pandas_sqlalchemy.ipynb)
+- [exercise_nbviewer](https://nbviewer.jupyter.org/github/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/extra/pandas_sqlalchemy.ipynb)
