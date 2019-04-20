@@ -1,8 +1,12 @@
 # Udacity_Data_Analyst_Nanodegree
 
+- [syllabus](https://nbviewer.jupyter.org/github/Yousuf28/Udacity_Data_Analyst_Nanodegree/blob/master/syllabus.pdf)
+
 ### Notebook
 
 ### Main Project
+
+I have completed 5 projects using python.
 ****
 ******
 
@@ -48,6 +52,8 @@
 ********
 
 ### Extra Special
+
+Here are some same project in different language. This was not required for completing the nanodegree but I did this anyway.
 
 #### part 01
 - [Explore Weather Trends: See all the plot in Tableau](https://public.tableau.com/profile/yousuf.ali#!/vizhome/ExploreWeatherTrends_1/GlobalMovingvsDallasMovingAvg)
